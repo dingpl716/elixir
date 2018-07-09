@@ -9,6 +9,7 @@ defmodule My.Struct.Test do
     assert block1.height == nil
     assert block1.hash == nil
     assert block1.pre_hash == nil
+    assert block1.default_value == 100
   end
 
   test "Create a aliased struct" do
