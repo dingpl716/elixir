@@ -24,4 +24,5 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
   ```
   mix ecto.gen.migration add_topics
   mix ecto.migrate
+  mix phoenix.routes
   ```
