@@ -16,9 +16,7 @@ defmodule Discuss.Topic do
     struct
     # produces a changeset
     |> cast(params, [:title])
-    |> IO.inspect(label: "before")
     # adds errors to changeset
     |> validate_required([:title])
-    |> IO.inspect(label: "after")
   end
 end
