@@ -15,14 +15,15 @@ defmodule KV.Supervisor do
 end
 
 defmodule KV.BucketSupervisor do
-  def start_link(opts) do
-    Supervisor.start_link(__MODULE__, :ok, opts)
+  def start_link(number, opts) do
+    Supervisor.start_link(__MODULE__, number, opts)
   end
 
-  def init(:ok) do
+  def init(number) do
     children = [
-      {KV.Registry, name: KV.Registry},
-      {DynamicSupervisor, name: KV.BucketSupervisor, strategy: :one_for_one}
+      {DynamicSupervisor,
+       name: String.to_atom("KV.BucketSupervisor_#{number}"), strategy: :one_for_one},
+      {KV.Registry, name: String.to_atom("KV.Registry_#{number}")}
     ]
 
     Supervisor.init(children, strategy: :one_for_all)
