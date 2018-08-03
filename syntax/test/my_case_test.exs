@@ -12,4 +12,22 @@ defmodule My.Case.Test do
   test "test2 default" do
     assert My.Case.test2(-1, 1) == "Matches default"
   end
+
+  test "compare state, when synced" do
+    current_state = %{hash: "bbb", pre_hash: "aaa", height: 2}
+    latest_state = %{hash: "bbb", pre_hash: "aaa", height: 2}
+    assert :synced == My.Case.compare_states(current_state, latest_state)
+  end
+
+  test "compare state, when chained" do
+    current_state = %{hash: "bbb", pre_hash: "aaa", height: 2}
+    latest_state = %{hash: "ccc", pre_hash: "bbb", height: 3}
+    assert :chained == My.Case.compare_states(current_state, latest_state)
+  end
+
+  test "compare state, when forked" do
+    current_state = %{hash: "bbb", pre_hash: "aaa", height: 2}
+    latest_state = %{hash: "b'b'b'", pre_hash: "a'a'a'", height: 3}
+    assert :forked == My.Case.compare_states(current_state, latest_state)
+  end
 end

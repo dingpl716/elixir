@@ -21,4 +21,15 @@ defmodule My.Case do
 
     f1.(x, y)
   end
+
+  def compare_states(current_state, latest_state) do
+    latest_pre_hash = latest_state.pre_hash
+    latest_hash = latest_state.hash
+
+    case current_state.hash do
+      current_hash when current_hash == latest_pre_hash -> :chained
+      current_hash when current_hash == latest_hash -> :synced
+      _ -> :forked
+    end
+  end
 end
