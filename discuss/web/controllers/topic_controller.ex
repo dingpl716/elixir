@@ -10,7 +10,7 @@ defmodule Discuss.TopicController do
 
   # 相当于是
   # changeset + form template = usable form
-  def new(conn, params) do
+  def new(conn, _params) do
     changeset = Topic.changeset(%Topic{}, %{})
     render(conn, "new.html", changeset: changeset)
   end
@@ -20,7 +20,7 @@ defmodule Discuss.TopicController do
     changeset = Topic.changeset(%Topic{}, topic)
 
     case Repo.insert(changeset) do
-      {:ok, topic} ->
+      {:ok, _topic} ->
         conn
         |> put_flash(:info, "Topic Created")
         |> redirect(to: topic_path(conn, :index))

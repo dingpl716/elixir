@@ -26,3 +26,10 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
   mix ecto.migrate
   mix phoenix.routes
   ```
+
+## OAuth with Github
+
+  1. Add deps to mix.exs: ueberauth & ueberauth_github
+  2. Add application to mix.exs: ueberauth & ueberauth_github
+  3. mix deps.get
+  4. Register an OAuth application on github.com
