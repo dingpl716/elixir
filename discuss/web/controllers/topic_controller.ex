@@ -2,6 +2,10 @@ defmodule Discuss.TopicController do
   use(Discuss.Web, :controller)
 
   alias Discuss.Topic
+  alias Discuss.Plugs.RequireAuth
+
+  plug(RequireAuth when action in [:new, :create, :edit, :update, :delete])
+  plug(:check_topic_owner when action in [:update, :edit, :delete])
 
   def index(conn, _params) do
     topics = Repo.all(Topic)
@@ -15,9 +19,14 @@ defmodule Discuss.TopicController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, params) do
-    %{"topic" => topic} = params
-    changeset = Topic.changeset(%Topic{}, topic)
+  def create(conn, %{"topic" => topic} = params) do
+    # The old way to insert a topic when there is no association between a topic and a user
+    # changeset = Topic.changeset(%Topic{}, topic)
+
+    changeset =
+      conn.assigns.user
+      |> build_assoc(:topics)
+      |> Topic.changeset(topic)
 
     case Repo.insert(changeset) do
       {:ok, _topic} ->
@@ -63,5 +72,21 @@ defmodule Discuss.TopicController do
     conn
     |> put_flash(:info, "Topic Deleted")
     |> redirect(to: topic_path(conn, :index))
+  end
+
+  @doc """
+  This is a function module.
+  """
+  def check_topic_owner(conn, _) do
+    %{params: %{"id" => topic_id}} = conn
+
+    if Repo.get(Topic, topic_id).user_id == conn.assigns.user.id do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You cannot edit that")
+      |> redirect(to: topic_path(conn, :index))
+      |> halt()
+    end
   end
 end

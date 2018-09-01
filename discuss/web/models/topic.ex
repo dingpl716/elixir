@@ -1,8 +1,10 @@
 defmodule Discuss.Topic do
+  alias Discuss.User
   use(Discuss.Web, :model)
 
   schema("topics") do
     field(:title, :string)
+    belongs_to(:user, User)
   end
 
   @doc """
