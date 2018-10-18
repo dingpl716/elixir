@@ -1,13 +1,12 @@
-defmodule MyEcto.Repo.Migrations.Model do
+defmodule MyEcto.Repo.Migrations.Test1 do
   use Ecto.Migration
 
   def change do
-    create table(:model) do
+    create table(:test1) do
       add(:uncle, :jsonb, [])
       add(:traces, {:array, :smallint}, [])
-      add(:time, :utc_datetime, [])
+      add(:time, :timestamp, [])
       add(:price_f, :float, [])
-      add(:price_d, :doule, [])
     end
   end
 end
