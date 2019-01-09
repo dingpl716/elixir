@@ -32,7 +32,7 @@ defmodule MyEcto.Car do
       transactions_root: "5fbd005be9ab329312563e1cdf61124c2e910852d5a03f716447e1f60d462be3"
     }
   ]
-  schema "model" do
+  schema "car" do
     field(:uncles, {:array, :map})
   end
 
